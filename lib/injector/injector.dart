@@ -1,46 +1,52 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:kiwi/kiwi.dart';
-import 'package:template/app/data/data_sources/local/IDbProvider.dart';
 import 'package:template/app/data/data_sources/local/sqflite/sqflite_db_provider.dart';
 import 'package:template/app/data/data_sources/local/sqflite/user_sources/IUserLocalDataSrc.dart';
 import 'package:template/app/data/data_sources/local/sqflite/user_sources/user_dao.dart';
 import 'package:template/app/data/data_sources/local/sqflite/user_sources/user_sqflite_local_datasrc.dart';
+import 'package:template/app/data/models/user.dart';
 import 'package:template/app/services/user_service/IUserService.dart';
 import 'package:template/app/services/user_service/user_service.dart';
+import 'package:template/core/data_sources/local/IDbProvider.dart';
+import 'package:template/core/data_sources/local/sqflite/IDao.dart';
 import 'package:template/core/utils/network/INetworkInfo.dart';
 import 'package:template/core/utils/network/NetworkInfo.dart';
 
-part 'injector.g.dart'; // flutter pub run build_runner build
+// part 'injector.g.dart'; // flutter pub run build_runner build
 
-abstract class Injector {
+class Injector {
+  KiwiContainer container = KiwiContainer();
 
-  static KiwiContainer container;
-  static final resolve = container.resolve;
-
-  static void setup() {
-    _$Injector()._configure();
+  void setup() {
+    _configure();
   }
 
   void _configure() {
     _configureCore();
     _configureApp();
   }
-  
-  @Register.singleton(Connectivity)
-  @Register.singleton(INetworkInfo, from: NetworkInfo)
-  void _configureCore();
 
-  void _configureApp() {
-    _configureServices();
-    _configureLocalDataSources();
+  void _configureCore() {
+    container.registerSingleton((c) => Connectivity());
+    container
+        .registerSingleton<INetworkInfo>((c) => NetworkInfo(c<Connectivity>()));
   }
 
-  @Register.singleton(IUserService, from: UserService)
-  void _configureServices();
+  void _configureApp() {
+    _configureLocalDb();
+    _configureUserFeature();
+  }
 
-  @Register.singleton(IDbProvider, from: SqfliteDbProvider)
-  @Register.singleton(UserDao)
-  @Register.singleton(IUserLocalDataSrc, from: UserSqfliteDataSource)
-  void _configureLocalDataSources();
+  void _configureLocalDb() {
+    container
+        .registerSingleton<IDbProvider<dynamic>>((c) => SqfliteDbProvider());
+  }
 
+  void _configureUserFeature() {
+    container.registerSingleton<IDao<User>>((c) => UserDao());
+    container.registerSingleton<IUserLocalDataSrc>((c) =>
+        UserSqfliteDataSource(c<IDbProvider<dynamic>>(), c<IDao<User>>()));
+    container.registerSingleton<IUserService>(
+        (c) => UserService(c<IUserLocalDataSrc>()));
+  }
 }

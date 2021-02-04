@@ -1,11 +1,14 @@
+import 'package:sqflite/sqflite.dart';
 import 'package:template/app/data/data_sources/local/sqflite/sqflite_db_provider.dart';
+import 'package:template/core/data_sources/local/IDbProvider.dart';
 import 'package:template/core/data_sources/local/ILocalDataSource.dart';
 import 'package:template/core/data_sources/local/sqflite/IDao.dart';
 import 'package:template/core/models/IEntity.dart';
 
+
 class BaseSqfliteDataSource<T extends IEntity<T>>
     implements ILocalDataSource<T> {
-  final SqfliteDbProvider dbProvider;
+  final IDbProvider<Database> dbProvider;
   final IDao<T> dao;
 
   const BaseSqfliteDataSource(this.dbProvider, this.dao);

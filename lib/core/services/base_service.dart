@@ -1,9 +1,10 @@
 import 'package:dartz/dartz.dart';
 import 'package:template/core/data_sources/local/ILocalDataSource.dart';
 import 'package:template/core/errors/failure.dart';
+import 'package:template/core/models/IEntity.dart';
 import 'package:template/core/services/IService.dart';
 
-class BaseService<T, TLocalDataSource extends ILocalDataSource> implements IService<T> {
+class BaseService<T extends IEntity, TLocalDataSource extends ILocalDataSource> implements IService<T> {
   final TLocalDataSource localDataSrc;
 
   BaseService(this.localDataSrc);

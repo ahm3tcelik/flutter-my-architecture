@@ -5,7 +5,7 @@ import 'package:template/injector/injector.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  Injector.setup();
+  Injector().setup();
   runApp(MyApp());
 }
 

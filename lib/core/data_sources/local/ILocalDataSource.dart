@@ -1,4 +1,6 @@
-abstract class ILocalDataSource<T> {
+import 'package:template/core/models/IEntity.dart';
+
+abstract class ILocalDataSource<T extends IEntity> {
 
   Future<T> get(int id);
   Future<List<T>> getAll();

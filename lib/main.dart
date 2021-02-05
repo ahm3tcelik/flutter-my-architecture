@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-// import 'package:template/app/resources/translations/app_translation.dart';
+import 'package:template/app/resources/translations/app_translation.dart';
 import 'package:template/app/routes/app_pages.dart';
 import 'package:template/injector/injector.dart';
 
@@ -20,7 +20,8 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData.light(),
         darkTheme: ThemeData.dark(),
-        //translationsKeys: AppTranslation.translations,
+        translationsKeys: AppTranslation.translations,
+        locale: Get.deviceLocale,
         defaultTransition: Transition.native,
         initialRoute: AppPages.INITIAL,
         getPages: AppPages.routes);

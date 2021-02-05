@@ -26,6 +26,6 @@ class User extends IEntity<User> implements IModel<User> {
 
   @override
   Map<String, Object> toJson() {
-    return {"userId": this.userId, "userName": this.userId};
+    return {"userId": this.userId, "userName": this.userName};
   }
 }

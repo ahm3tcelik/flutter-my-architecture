@@ -1,10 +1,16 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:kiwi/kiwi.dart';
+import 'package:template/app/data/data_sources/local/sqflite/example_sources/IExampleLocalDataSrc.dart';
+import 'package:template/app/data/data_sources/local/sqflite/example_sources/example_dao.dart';
+import 'package:template/app/data/data_sources/local/sqflite/example_sources/example_sqflite_local_datasrc.dart';
 import 'package:template/app/data/data_sources/local/sqflite/sqflite_db_provider.dart';
 import 'package:template/app/data/data_sources/local/sqflite/user_sources/IUserLocalDataSrc.dart';
 import 'package:template/app/data/data_sources/local/sqflite/user_sources/user_dao.dart';
 import 'package:template/app/data/data_sources/local/sqflite/user_sources/user_sqflite_local_datasrc.dart';
+import 'package:template/app/data/models/example.dart';
 import 'package:template/app/data/models/user.dart';
+import 'package:template/app/services/example_service/IExampleService.dart';
+import 'package:template/app/services/example_service/example_service.dart';
 import 'package:template/app/services/user_service/IUserService.dart';
 import 'package:template/app/services/user_service/user_service.dart';
 import 'package:template/core/data_sources/local/IDbProvider.dart';
@@ -35,6 +41,7 @@ class Injector {
   void _configureApp() {
     _configureLocalDb();
     _configureUserFeature();
+    _configureExampleFeature();
   }
 
   void _configureLocalDb() {
@@ -49,4 +56,13 @@ class Injector {
     container.registerSingleton<IUserService>(
         (c) => UserService(c<IUserLocalDataSrc>()));
   }
+
+  void _configureExampleFeature() {
+    container.registerSingleton<IDao<Example>>((c) => ExampleDao());
+    container.registerSingleton<IExampleLocalDataSrc>((c) =>
+        ExampleSqfliteDataSource(c<IDbProvider<dynamic>>(), c<IDao<Example>>()));
+    container.registerSingleton<IExampleService>((c) => ExampleService(c<IExampleLocalDataSrc>()));
+  }
+
+
 }

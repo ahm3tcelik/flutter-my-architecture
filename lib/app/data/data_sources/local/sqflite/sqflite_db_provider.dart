@@ -1,11 +1,10 @@
 import 'package:kiwi/kiwi.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:template/app/data/data_sources/local/sqflite/user_sources/user_dao.dart';
+import 'package:template/app/data/data_sources/local/sqflite/dao_context.dart';
 import 'package:template/core/data_sources/local/IDbProvider.dart';
 
 class SqfliteDbProvider implements IDbProvider<Database> {
-
   static const DbName = "template_app.db";
   static const DbVersion = 1;
 
@@ -34,12 +33,16 @@ class SqfliteDbProvider implements IDbProvider<Database> {
   }
 
   void onCreateDb(Database db, int version) async {
-    db.execute(container<UserDao>().createTableQuery);
-    print(container<UserDao>().tableName + " oluşturuldu");
+    DaoContext.daoList.forEach((dao) {
+      db.execute(dao.createTableQuery);
+    });
   }
 
   void onUpgradeDb(Database db, int oldVersion, int newVersion) {
-    db.execute('DROP TABLE IF EXISTS "${container<UserDao>().tableName}"');
+    DaoContext.daoList.forEach((dao) {
+      db.execute('DROP TABLE IF EXISTS "${dao.tableName}"');
+    });
+
     onCreateDb(db, newVersion);
   }
 }

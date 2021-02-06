@@ -7,7 +7,7 @@ import 'package:template/core/utils/network/INetworkInfo.dart';
 
 enum ViewState { initial, busy, error, data }
 
-class LoadingController extends GetxController {
+class TestController extends GetxController {
   final container = KiwiContainer();
 
   final viewState = ViewState.initial.obs;

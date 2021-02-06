@@ -21,6 +21,7 @@ class UsersController extends GetxController {
   IUserService userService;
   final usersViewState = ViewState.initial.obs;
   List<User> _users;
+  String usersErrorMsg = '';
 
   List<User> get users => List.from(_users);
   bool localUsersView = false;
@@ -57,27 +58,32 @@ class UsersController extends GetxController {
   }
 
   void remoteFetchUsers() async {
+    if (usersViewState.value == ViewState.busy) return;
     localUsersView = false;
     _setUsersViewState(ViewState.busy);
-    await Future.delayed(Duration(seconds: 5));
-    _setUsersViewState(ViewState.error);
+    final result = await userService.remoteGetAllUsers();
+    _handleFetchUsers(result);
   }
 
   void localFetchUsers() async {
-    localUsersView = true;
     if (usersViewState.value == ViewState.busy) return;
-
+    localUsersView = true;
     _setUsersViewState(ViewState.busy);
     final result = await userService.localGetAll();
-    handleFetchUsers(result);
+    _handleFetchUsers(result);
   }
 
-  void handleFetchUsers(Either<Failure, List<User>> result) async {
+  void _handleFetchUsers(Either<Failure, List<User>> result) async {
     result.fold((failure) {
       _users?.clear();
+      usersErrorMsg = failure.message;
       _setUsersViewState(ViewState.error);
     }, (data) {
       _users = data;
+
+      Get.snackbar(
+          "Data", "Data received from ${localUsersView ? 'local db' : 'api'}");
+
       _setUsersViewState(ViewState.data);
     });
   }

@@ -26,11 +26,23 @@ class UsersView extends GetView<UsersController> {
         case ViewState.data:
           return buildUsersList;
         case ViewState.error:
-          return Center(child: Icon(Icons.warning, color: Get.theme.errorColor));
+          return buildError;
         default:
           return SizedBox();
       }
     });
+  }
+
+  Widget get buildError {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.warning, color: Get.theme.errorColor, size: 48),
+          Text(controller.usersErrorMsg)
+        ],
+      ),
+    );
   }
 
   Widget get buildShimmerList {

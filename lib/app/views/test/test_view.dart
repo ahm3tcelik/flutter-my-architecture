@@ -1,14 +1,14 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:template/app/views/loading/loading_controller.dart';
+import 'package:template/app/views/test/test_controller.dart';
 
-class LoadingView extends GetView<LoadingController> {
+class TestView extends GetView<TestController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Loading Page"),
+        title: Text("Test View Page"),
         centerTitle: true,
       ),
       body: Stack(

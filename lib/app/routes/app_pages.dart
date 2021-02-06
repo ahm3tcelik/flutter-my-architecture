@@ -3,7 +3,7 @@ import '../views/index.dart';
 import 'app_routes.dart';
 
 class AppPages {
-  static const INITIAL = AppRoutes.USERS;
+  static const INITIAL = AppRoutes.HOME;
 
   static final routes = [
     GetPage(
@@ -11,9 +11,9 @@ class AppPages {
       page: () => HomeView(),
     ),
     GetPage(
-        name: AppRoutes.LOADING,
-        page: () => LoadingView(),
-        binding: LoadingBinding()),
+        name: AppRoutes.TEST,
+        page: () => TestView(),
+        binding: TestBinding()),
     GetPage(
         name: AppRoutes.USERS,
         page: () => UsersView(),

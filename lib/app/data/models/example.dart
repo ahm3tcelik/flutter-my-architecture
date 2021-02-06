@@ -17,14 +17,6 @@ class Example extends IEntity<Example> implements IModel<Example> {
   Example fromMap(Map<String, Object> map) => Example.fromJson(map);
 
   @override
-  Map<String, dynamic> toMap() {
-    return <String, dynamic> {
-      "exampleId": this.exampleId,
-      "exampleData": this.exampleData
-    };
-  }
-
-  @override
   Map<String, Object> toJson() {
     return {"userId": this.exampleId, "userName": this.exampleData};
   }

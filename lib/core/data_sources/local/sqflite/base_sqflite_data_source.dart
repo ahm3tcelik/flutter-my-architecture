@@ -16,7 +16,7 @@ class BaseSqfliteDataSource<T extends IEntity<T>>
   @override
   Future<int> add(T ent) async {
     final db = await dbProvider.getDb();
-    final result = await db.insert(dao.tableName, ent.toMap());
+    final result = await db.insert(dao.tableName, ent.toJson());
     return result;
   }
 
@@ -53,7 +53,7 @@ class BaseSqfliteDataSource<T extends IEntity<T>>
   @override
   Future<int> update(int id, T ent) async {
     final db = await dbProvider.getDb();
-    final result = await db.update(dao.tableName, ent.toMap(),
+    final result = await db.update(dao.tableName, ent.toJson(),
         whereArgs: [dao.primaryKey], where: '${dao.primaryKey} = $id');
     return result;
   }

@@ -3,9 +3,11 @@ import 'package:get/get.dart';
 import 'package:template/app/resources/translations/app_translation.dart';
 import 'package:template/app/routes/app_pages.dart';
 import 'package:template/injector/injector.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart' as dotEnv;
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotEnv.load(); // this line must be above the injector
   Injector().setup();
   runApp(MyApp());
 }

@@ -9,7 +9,7 @@ class ExampleDao extends IDao<Example> {
 
   @override
   String get createTableQuery =>
-      ''' CREATE TABLE "Examples" ( "exampleId"	INTEGER PRIMARY KEY AUTOINCREMENT, "exampleData"	TEXT); ''';
+      ''' CREATE TABLE "Examples" ( "exampleId"	TEXT, "exampleData"	TEXT); ''';
 
   @override
   String get primaryKey => 'exampleId';

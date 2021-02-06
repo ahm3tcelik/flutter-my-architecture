@@ -34,6 +34,7 @@ class UserService extends BaseService<User, IUserLocalDataSrc>
         return Left(err);
       }, (userList) {
         if (userList != null || userList.isEmpty) {
+          localDataSrc.putFromRemote(userList);
           return Right(userList);
         }
         return const Left(Failure("Users are not available"));

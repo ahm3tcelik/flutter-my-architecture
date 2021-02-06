@@ -9,7 +9,7 @@ class UserDao extends IDao<User> {
 
   @override
   String get createTableQuery =>
-      ''' CREATE TABLE "Users" ( "userId"	INTEGER PRIMARY KEY AUTOINCREMENT, "userName"	TEXT); ''';
+      ''' CREATE TABLE "Users" ( "userId"	TEXT, "userName"	TEXT); ''';
 
   // User user = User();
   // user.userId;

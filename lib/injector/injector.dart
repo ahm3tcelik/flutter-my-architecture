@@ -50,10 +50,15 @@ class Injector {
   }
   
   void _configureApiClient() {
-    container.registerInstance(ApiClient(Dio(BaseOptions(
-      contentType: "application/json",
+
+    final dio = Dio(BaseOptions(
       baseUrl: env['API_URL'],
-    ))));
+      connectTimeout: 5000,
+      receiveTimeout: 5000,
+    ));
+
+    container.registerInstance(ApiClient(dio, baseUrl: env['API_URL']));
+
   }
 
   void _configureLocalDb() {

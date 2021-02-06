@@ -2,11 +2,10 @@ import 'package:kiwi/kiwi.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:template/app/data/data_sources/local/sqflite/dao_context.dart';
+import 'package:template/app/resources/constants/db_constants.dart';
 import 'package:template/core/data_sources/local/IDbProvider.dart';
 
 class SqfliteDbProvider implements IDbProvider<Database> {
-  static const DbName = "template_app.db";
-  static const DbVersion = 1;
 
   final container = KiwiContainer();
 
@@ -22,11 +21,11 @@ class SqfliteDbProvider implements IDbProvider<Database> {
   @override
   Future<void> init() async {
     String dbPath = await getDatabasesPath();
-    String path = join(dbPath, DbName);
+    String path = join(dbPath, DbConstants.Name);
 
     _db = await openDatabase(
       path,
-      version: DbVersion,
+      version: DbConstants.Version,
       onCreate: onCreateDb,
       onUpgrade: onUpgradeDb,
     );

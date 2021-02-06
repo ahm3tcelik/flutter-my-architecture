@@ -19,7 +19,7 @@ class BaseService<T extends IEntity, TLocalDataSource extends ILocalDataSource> 
   }
 
   @override
-  Future<Either<Failure, int>> localDeleteById(int id, T ent) async {
+  Future<Either<Failure, int>> localDeleteById(dynamic id, T ent) async {
     final int affectedNum = await localDataSrc.delete(id, ent);
     if (affectedNum == null || affectedNum < 1) {
       return const Left(Failure("Data could not be deleted"));
@@ -28,7 +28,7 @@ class BaseService<T extends IEntity, TLocalDataSource extends ILocalDataSource> 
   }
 
   @override
-  Future<Either<Failure, T>> localGetById(int id) async {
+  Future<Either<Failure, T>> localGetById(dynamic id) async {
     final T data = await localDataSrc.get(id);
     if (data == null) {
       return const Left(Failure('No app.data available'));
@@ -46,7 +46,7 @@ class BaseService<T extends IEntity, TLocalDataSource extends ILocalDataSource> 
   }
 
   @override
-  Future<Either<Failure, int>> localUpdateById(int id, T ent) async {
+  Future<Either<Failure, int>> localUpdateById(dynamic id, T ent) async {
     final int affectedNum = await localDataSrc.update(id, ent);
     if (affectedNum == null || affectedNum < 1) {
       return const Left(Failure("Data could not be updated"));

@@ -12,14 +12,13 @@ class UserRemoteDataSrc implements IUserRemoteDataSrc {
 
   @override
   Future<Either<Failure, List<User>>> getUsers() async {
-    await Future.delayed(Duration(seconds: 5));
     try {
-      final users = List<User>();
+      final users = await apiClient.getAllUsers();
       return Right(users);
     } on DioError catch (err) {
       return Left(Failure(err.message));
     } on Exception catch (_) {
-      return const Left(Failure("An error ocurred"));
+      return const Left(Failure("An error occurred"));
     }
   }
 }

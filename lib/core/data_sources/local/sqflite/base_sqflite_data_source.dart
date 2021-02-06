@@ -1,10 +1,8 @@
 import 'package:sqflite/sqflite.dart';
-import 'package:template/app/data/data_sources/local/sqflite/sqflite_db_provider.dart';
 import 'package:template/core/data_sources/local/IDbProvider.dart';
 import 'package:template/core/data_sources/local/ILocalDataSource.dart';
 import 'package:template/core/data_sources/local/sqflite/IDao.dart';
 import 'package:template/core/models/IEntity.dart';
-
 
 class BaseSqfliteDataSource<T extends IEntity<T>>
     implements ILocalDataSource<T> {
@@ -21,7 +19,7 @@ class BaseSqfliteDataSource<T extends IEntity<T>>
   }
 
   @override
-  Future<int> delete(int id, T ent) async {
+  Future<int> delete(dynamic id, T ent) async {
     final db = await dbProvider.getDb();
     final result = await db.delete(dao.tableName,
         whereArgs: [dao.primaryKey], where: '${dao.primaryKey} = $id');
@@ -30,7 +28,7 @@ class BaseSqfliteDataSource<T extends IEntity<T>>
   }
 
   @override
-  Future<T> get(int id) async {
+  Future<T> get(dynamic id) async {
     final db = await dbProvider.getDb();
     final results = await db.query(dao.tableName,
         distinct: true,
@@ -38,7 +36,7 @@ class BaseSqfliteDataSource<T extends IEntity<T>>
         whereArgs: [dao.primaryKey],
         where: '${dao.primaryKey} = $id');
 
-    return dao.createGenericInstance.fromMap(results.first);
+    return dao.createGenericInstance.fromJson(results.first);
   }
 
   @override
@@ -46,15 +44,28 @@ class BaseSqfliteDataSource<T extends IEntity<T>>
     final db = await dbProvider.getDb();
     final results = await db.query(dao.tableName);
     final resultsAsList =
-        results.map((e) => dao.createGenericInstance.fromMap(e)).toList();
+        results.map((e) => dao.createGenericInstance.fromJson(e)).toList();
     return resultsAsList;
   }
 
   @override
-  Future<int> update(int id, T ent) async {
+  Future<int> update(dynamic id, T ent) async {
     final db = await dbProvider.getDb();
     final result = await db.update(dao.tableName, ent.toJson(),
         whereArgs: [dao.primaryKey], where: '${dao.primaryKey} = $id');
     return result;
+  }
+
+  @override
+  Future<void> putFromRemote(List<T> entList) async {
+    final db = await dbProvider.getDb();
+
+    db.delete(dao.tableName);
+
+    final batch = db.batch();
+    entList.forEach((ent) {
+      batch.insert(dao.tableName, ent.toJson());
+    });
+    await batch.commit(noResult: true);
   }
 }

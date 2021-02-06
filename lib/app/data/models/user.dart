@@ -16,13 +16,6 @@ class User extends IEntity<User> implements IModel<User> {
   @override
   User fromMap(Map<String, Object> map) => User.fromJson(map);
 
-  @override
-  Map<String, dynamic> toMap() {
-    return <String, dynamic> {
-      "userId": this.userId,
-      "userName": this.userName
-    };
-  }
 
   @override
   Map<String, Object> toJson() {

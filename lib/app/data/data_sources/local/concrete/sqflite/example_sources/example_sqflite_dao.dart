@@ -1,8 +1,8 @@
 import 'package:template/app/data/models/example.dart';
-import 'package:template/core/data_sources/local/sqflite/IDao.dart';
+import 'package:template/core/data_sources/local/sqflite/ISqfliteDao.dart';
 
 
-class ExampleDao extends IDao<Example> {
+class ExampleSqfliteDao extends ISqfliteDao<Example> {
 
   @override
   Example get createGenericInstance => Example();

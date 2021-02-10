@@ -1,8 +1,8 @@
 import 'package:template/app/data/models/user.dart';
-import 'package:template/core/data_sources/local/sqflite/IDao.dart';
+import 'package:template/core/data_sources/local/sqflite/ISqfliteDao.dart';
 
 
-class UserDao extends IDao<User> {
+class UserSqfliteDao extends ISqfliteDao<User> {
 
   @override
   User get createGenericInstance => User();

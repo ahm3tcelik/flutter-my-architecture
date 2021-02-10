@@ -1,9 +1,9 @@
 import 'package:kiwi/kiwi.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:template/app/data/data_sources/local/sqflite/dao_context.dart';
 import 'package:template/app/resources/constants/db_constants.dart';
 import 'package:template/core/data_sources/local/IDbProvider.dart';
+import 'dao_context.dart';
 
 class SqfliteDbProvider implements IDbProvider<Database> {
 

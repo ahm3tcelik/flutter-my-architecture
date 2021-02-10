@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:template/app/data/data_sources/local/sqflite/user_sources/IUserLocalDataSrc.dart';
+import 'package:template/app/data/data_sources/local/abstract/IUserLocalDataSrc.dart';
 import 'package:template/app/data/data_sources/remote/user_sources/IUserRemoteDataSrc.dart';
 import 'package:template/app/data/models/user.dart';
 import 'package:template/app/services/user_service/IUserService.dart';

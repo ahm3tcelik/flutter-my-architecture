@@ -1,4 +1,4 @@
-import 'package:template/app/data/data_sources/local/sqflite/example_sources/IExampleLocalDataSrc.dart';
+import 'package:template/app/data/data_sources/local/abstract/IExampleLocalDataSrc.dart';
 import 'package:template/app/data/models/example.dart';
 import 'package:template/app/services/example_service/IExampleService.dart';
 import 'package:template/core/services/base_service.dart';

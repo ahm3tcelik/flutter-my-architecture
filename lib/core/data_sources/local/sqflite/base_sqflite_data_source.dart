@@ -1,8 +1,9 @@
 import 'package:sqflite/sqflite.dart';
+import 'package:template/core/data_sources/local/IDao.dart';
 import 'package:template/core/data_sources/local/IDbProvider.dart';
 import 'package:template/core/data_sources/local/ILocalDataSource.dart';
-import 'package:template/core/data_sources/local/sqflite/IDao.dart';
 import 'package:template/core/models/IEntity.dart';
+import 'ISqfliteDao.dart';
 
 class BaseSqfliteDataSource<T extends IEntity<T>>
     implements ILocalDataSource<T> {
@@ -14,14 +15,14 @@ class BaseSqfliteDataSource<T extends IEntity<T>>
   @override
   Future<int> add(T ent) async {
     final db = await dbProvider.getDb();
-    final result = await db.insert(dao.tableName, ent.toJson());
+    final result = await db.insert((dao as ISqfliteDao).tableName, ent.toJson());
     return result;
   }
 
   @override
   Future<int> delete(dynamic id, T ent) async {
     final db = await dbProvider.getDb();
-    final result = await db.delete(dao.tableName,
+    final result = await db.delete((dao as ISqfliteDao).tableName,
         whereArgs: [dao.primaryKey], where: '${dao.primaryKey} = $id');
 
     return result;
@@ -30,7 +31,7 @@ class BaseSqfliteDataSource<T extends IEntity<T>>
   @override
   Future<T> get(dynamic id) async {
     final db = await dbProvider.getDb();
-    final results = await db.query(dao.tableName,
+    final results = await db.query((dao as ISqfliteDao).tableName,
         distinct: true,
         limit: 1,
         whereArgs: [dao.primaryKey],
@@ -42,7 +43,7 @@ class BaseSqfliteDataSource<T extends IEntity<T>>
   @override
   Future<List<T>> getAll() async {
     final db = await dbProvider.getDb();
-    final results = await db.query(dao.tableName);
+    final results = await db.query((dao as ISqfliteDao).tableName);
     final resultsAsList =
         results.map((e) => dao.createGenericInstance.fromJson(e)).toList();
     return resultsAsList;
@@ -51,7 +52,7 @@ class BaseSqfliteDataSource<T extends IEntity<T>>
   @override
   Future<int> update(dynamic id, T ent) async {
     final db = await dbProvider.getDb();
-    final result = await db.update(dao.tableName, ent.toJson(),
+    final result = await db.update((dao as ISqfliteDao).tableName, ent.toJson(),
         whereArgs: [dao.primaryKey], where: '${dao.primaryKey} = $id');
     return result;
   }
@@ -60,11 +61,11 @@ class BaseSqfliteDataSource<T extends IEntity<T>>
   Future<void> putFromRemote(List<T> entList) async {
     final db = await dbProvider.getDb();
 
-    db.delete(dao.tableName);
+    db.delete((dao as ISqfliteDao).tableName);
 
     final batch = db.batch();
     entList.forEach((ent) {
-      batch.insert(dao.tableName, ent.toJson());
+      batch.insert((dao as ISqfliteDao).tableName, ent.toJson());
     });
     await batch.commit(noResult: true);
   }

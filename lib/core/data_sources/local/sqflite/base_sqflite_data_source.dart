@@ -44,7 +44,7 @@ class BaseSqfliteDataSource<T extends IEntity<T>>
     final db = await dbProvider.getDb();
     final results = await db.query((dao as ISqfliteDao).tableName);
     final resultsAsList =
-        results.map((e) => dao!.createGenericInstance.fromJson(e)).toList();
+        results.map((e) => dao.createGenericInstance.fromJson(e)).toList();
     return resultsAsList;
   }
 

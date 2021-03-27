@@ -19,5 +19,5 @@ class Example extends IEntity<Example> implements IModel<Example> {
   Example fromJson(Map<String, dynamic> json) => _$ExampleFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$ExampleToJson(this)!;
+  Map<String, dynamic> toJson() => _$ExampleToJson(this);
 }

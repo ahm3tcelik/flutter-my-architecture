@@ -23,9 +23,9 @@ class BaseSembastDataSource<T extends IEntity<T>>
   @override
   Future<int> delete(id, T ent) async {
     final folder = intMapStoreFactory.store((dao as ISembastDao).mainStoreRef);
-    final finder = Finder(filter: Filter.equals(dao!.primaryKey, id));
+    final finder = Finder(filter: Filter.equals(dao.primaryKey, id));
     final result =
-        await folder.delete(await dbProvider!.getDb(), finder: finder);
+        await folder.delete(await dbProvider.getDb(), finder: finder);
     return result;
   }
 
@@ -43,7 +43,7 @@ class BaseSembastDataSource<T extends IEntity<T>>
     final result = await folder.find(await dbProvider.getDb());
 
     return result
-        .map((e) => dao!.createGenericInstance.fromJson(e.value))
+        .map((e) => dao.createGenericInstance.fromJson(e.value))
         .toList();
   }
 

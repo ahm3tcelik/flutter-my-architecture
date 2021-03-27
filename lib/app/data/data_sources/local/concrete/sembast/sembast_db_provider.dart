@@ -3,12 +3,12 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sembast/sembast.dart';
 import 'package:sembast/sembast_io.dart';
-import 'package:template/app/resources/constants/db_constants.dart';
-import 'package:template/core/data_sources/local/IDbProvider.dart';
+import '../../../../../resources/constants/db_constants.dart';
+import '../../../../../../core/data_sources/local/IDbProvider.dart';
 
 class SembastDbProvider extends IDbProvider<Database> {
 
-  Completer<Database> _dbOpenCompleter;
+  Completer<Database>? _dbOpenCompleter;
 
   @override
   Future<Database> getDb() async {
@@ -16,7 +16,7 @@ class SembastDbProvider extends IDbProvider<Database> {
     _dbOpenCompleter = Completer();
     _openDatabase();
     }
-    return _dbOpenCompleter.future;
+    return _dbOpenCompleter!.future;
   }
 
   Future _openDatabase() async {
@@ -28,7 +28,7 @@ class SembastDbProvider extends IDbProvider<Database> {
 
     final database = await databaseFactoryIo.openDatabase(dbPath);
 
-    _dbOpenCompleter.complete(database);
+    _dbOpenCompleter!.complete(database);
   }
 
   @override

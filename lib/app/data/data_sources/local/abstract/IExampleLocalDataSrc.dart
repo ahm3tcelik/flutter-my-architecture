@@ -1,5 +1,5 @@
-import 'package:template/app/data/models/example.dart';
-import 'package:template/core/data_sources/local/ILocalDataSource.dart';
+import '../../../../data/models/example.dart';
+import '../../../../../core/data_sources/local/ILocalDataSource.dart';
 
 abstract class IExampleLocalDataSrc extends ILocalDataSource<Example> {
   // Special methods other than CRUD

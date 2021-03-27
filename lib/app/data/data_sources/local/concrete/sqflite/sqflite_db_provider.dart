@@ -5,15 +5,15 @@ import 'package:template/app/resources/constants/db_constants.dart';
 import 'package:template/core/data_sources/local/IDbProvider.dart';
 import 'dao_context.dart';
 
-class SqfliteDbProvider implements IDbProvider<Database> {
+class SqfliteDbProvider implements IDbProvider<Database?> {
 
   final container = KiwiContainer();
 
-  Database _db;
+  Database? _db;
   bool isInitialized = false;
 
   @override
-  Future<Database> getDb() async {
+  Future<Database?> getDb() async {
     if (!isInitialized) await init();
     return _db;
   }
@@ -33,13 +33,13 @@ class SqfliteDbProvider implements IDbProvider<Database> {
 
   void onCreateDb(Database db, int version) async {
     DaoContext.daoList.forEach((dao) {
-      db.execute(dao.createTableQuery);
+      db.execute(dao!.createTableQuery);
     });
   }
 
   void onUpgradeDb(Database db, int oldVersion, int newVersion) {
     DaoContext.daoList.forEach((dao) {
-      db.execute('DROP TABLE IF EXISTS "${dao.tableName}"');
+      db.execute('DROP TABLE IF EXISTS "${dao!.tableName}"');
     });
 
     onCreateDb(db, newVersion);

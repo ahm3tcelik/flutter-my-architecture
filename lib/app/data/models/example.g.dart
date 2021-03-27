@@ -8,8 +8,8 @@ part of 'example.dart';
 
 Example _$ExampleFromJson(Map<String, dynamic> json) {
   return Example(
-    exampleId: json['exampleId'] as int,
-    exampleData: json['exampleData'] as String,
+    exampleId: json['exampleId'] as int?,
+    exampleData: json['exampleData'] as String?,
   );
 }
 

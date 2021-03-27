@@ -1,13 +1,12 @@
-import 'package:sqflite/sqflite.dart';
-import 'package:template/core/data_sources/local/IDao.dart';
-import 'package:template/core/data_sources/local/IDbProvider.dart';
-import 'package:template/core/data_sources/local/ILocalDataSource.dart';
-import 'package:template/core/models/IEntity.dart';
+import '../../../../core/data_sources/local/IDao.dart';
+import '../../../../core/data_sources/local/IDbProvider.dart';
+import '../../../../core/data_sources/local/ILocalDataSource.dart';
+import '../../../../core/models/IEntity.dart';
 import 'ISqfliteDao.dart';
 
 class BaseSqfliteDataSource<T extends IEntity<T>>
     implements ILocalDataSource<T> {
-  final IDbProvider<Database> dbProvider;
+  final IDbProvider<dynamic> dbProvider;
   final IDao<T> dao;
 
   const BaseSqfliteDataSource(this.dbProvider, this.dao);
@@ -29,7 +28,7 @@ class BaseSqfliteDataSource<T extends IEntity<T>>
   }
 
   @override
-  Future<T> get(dynamic id) async {
+  Future<T>? get(dynamic id) async {
     final db = await dbProvider.getDb();
     final results = await db.query((dao as ISqfliteDao).tableName,
         distinct: true,
@@ -41,7 +40,7 @@ class BaseSqfliteDataSource<T extends IEntity<T>>
   }
 
   @override
-  Future<List<T>> getAll() async {
+  Future<List<T>>? getAll() async {
     final db = await dbProvider.getDb();
     final results = await db.query((dao as ISqfliteDao).tableName);
     final resultsAsList =

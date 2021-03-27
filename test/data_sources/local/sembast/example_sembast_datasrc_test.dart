@@ -8,7 +8,7 @@ class ExampleDataSrcMock extends Mock implements ExampleSembastDataSource {}
 
 void main() {
 
-  IExampleLocalDataSrc exampleLocalDataSrc;
+  late IExampleLocalDataSrc exampleLocalDataSrc;
 
   final exampleList = <Example>[
     Example(exampleId: 1, exampleData: "Lorem"),
@@ -23,7 +23,7 @@ void main() {
     when(exampleLocalDataSrc.getAll())
         .thenAnswer((_) => Future.value(exampleList));
 
-    final result = await exampleLocalDataSrc.getAll();
+    final List<Example>? result = await exampleLocalDataSrc.getAll();
     expect(result, exampleList);
 
   });
@@ -32,7 +32,7 @@ void main() {
     when(exampleLocalDataSrc.get(1))
         .thenAnswer((_) => Future.value(exampleList[0]));
 
-    final result = await exampleLocalDataSrc.get(1);
+    final Example? result = await exampleLocalDataSrc.get(1);
     expect(result, exampleList[0]);
 
   });

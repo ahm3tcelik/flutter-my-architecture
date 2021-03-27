@@ -1,14 +1,13 @@
-import 'package:sqflite/sqflite.dart';
-import 'package:template/app/data/data_sources/local/abstract/IUserLocalDataSrc.dart';
-import 'package:template/app/data/models/user.dart';
-import 'package:template/core/data_sources/local/IDao.dart';
-import 'package:template/core/data_sources/local/IDbProvider.dart';
-import 'package:template/core/data_sources/local/sqflite/ISqfliteDao.dart';
-import 'package:template/core/data_sources/local/sqflite/base_sqflite_data_source.dart';
+import '../../../../../../../app/data/data_sources/local/abstract/IUserLocalDataSrc.dart';
+import '../../../../../../../app/data/models/user.dart';
+import '../../../../../../../core/data_sources/local/IDao.dart';
+import '../../../../../../../core/data_sources/local/IDbProvider.dart';
+import '../../../../../../../core/data_sources/local/sqflite/ISqfliteDao.dart';
+import '../../../../../../../core/data_sources/local/sqflite/base_sqflite_data_source.dart';
 
 class UserSqfliteDataSource extends BaseSqfliteDataSource<User>
     implements IUserLocalDataSrc {
-  UserSqfliteDataSource(IDbProvider<Database> dbProvider, IDao<User> dao)
+  UserSqfliteDataSource(IDbProvider<dynamic> dbProvider, IDao<User> dao)
       : super(dbProvider, dao);
 
   @override

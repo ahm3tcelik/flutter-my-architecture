@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:template/app/routes/app_routes.dart';
+import '../../routes/app_routes.dart';
 
 class HomeView extends StatelessWidget {
   @override
@@ -15,13 +15,13 @@ class HomeView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              RaisedButton(
+              OutlinedButton(
                 onPressed: () {
                   Get.toNamed(AppRoutes.TEST);
                 },
                 child: Text('Test UI'),
               ),
-              RaisedButton(
+              OutlinedButton(
                 onPressed: () {
                   Get.toNamed(AppRoutes.USERS);
                 },

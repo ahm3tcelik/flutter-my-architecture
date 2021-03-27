@@ -17,7 +17,8 @@ class UserService extends BaseService<User, IUserLocalDataSrc>
 
   @override
   Future<Either<Failure, List<User>>> localSearchByName(String key) async {
-    final List<User> data = await localDataSrc.searchByName(key);
+
+    final List<User>? data = await localDataSrc.searchByName(key);
     if (data == null || data.isEmpty) {
       return const Left(Failure("Search not found"));
     }

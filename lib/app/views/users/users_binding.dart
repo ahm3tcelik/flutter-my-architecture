@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:template/app/views/users/users_controller.dart';
+import '../users/users_controller.dart';
 
 class UsersBinding extends Bindings {
 

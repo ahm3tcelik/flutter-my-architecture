@@ -1,8 +1,8 @@
 import 'package:sembast/sembast.dart';
-import 'package:template/app/data/models/example.dart';
-import 'package:template/core/data_sources/local/IDbProvider.dart';
-import 'package:template/core/data_sources/local/sembast/ISembastDao.dart';
-import 'package:template/core/data_sources/local/sembast/base_sembast_data_source.dart';
+import '../../../../../models/example.dart';
+import '../../../../../../../core/data_sources/local/IDbProvider.dart';
+import '../../../../../../../core/data_sources/local/sembast/ISembastDao.dart';
+import '../../../../../../../core/data_sources/local/sembast/base_sembast_data_source.dart';
 import '../../../abstract/IExampleLocalDataSrc.dart';
 
 class ExampleSembastDataSource extends BaseSembastDataSource<Example>

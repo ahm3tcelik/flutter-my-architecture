@@ -1,13 +1,12 @@
 import 'dart:async';
-
 import 'package:connectivity/connectivity.dart';
 import 'package:dartz/dartz.dart';
 import 'package:get/get.dart';
 import 'package:kiwi/kiwi.dart';
-import 'package:template/app/data/models/user.dart';
-import 'package:template/app/services/user_service/IUserService.dart';
-import 'package:template/core/errors/failure.dart';
-import 'package:template/core/utils/network/INetworkInfo.dart';
+import '../../data/models/user.dart';
+import '../../services/user_service/IUserService.dart';
+import '../../../core/errors/failure.dart';
+import '../../../core/utils/network/INetworkInfo.dart';
 
 enum ViewState { initial, busy, error, data }
 
@@ -15,15 +14,15 @@ class UsersController extends GetxController {
   final container = KiwiContainer();
 
   final connectivityResult = ConnectivityResult.none.obs;
-  INetworkInfo networkInfo;
-  StreamSubscription<ConnectivityResult> connectionSubscription;
+  INetworkInfo? networkInfo;
+  late StreamSubscription<ConnectivityResult> connectionSubscription;
 
-  IUserService userService;
+  IUserService? userService;
   final usersViewState = ViewState.initial.obs;
-  List<User> _users;
+  List<User>? _users;
   String usersErrorMsg = '';
 
-  List<User> get users => List.from(_users);
+  List<User> get users => List.from(_users!);
   bool localUsersView = false;
 
   @override
@@ -31,18 +30,18 @@ class UsersController extends GetxController {
     userService = container<IUserService>();
 
     networkInfo = container<INetworkInfo>();
-    connectivityResult.value = await networkInfo.connectivityResult;
+    connectivityResult.value = await networkInfo!.connectivityResult;
 
     connectionSubscription =
-        networkInfo.onConnectivityChanged.listen((ConnectivityResult result) {
+        networkInfo!.onConnectivityChanged.listen((ConnectivityResult result) {
       if (result != ConnectivityResult.none &&
-          (_users == null || _users.isEmpty || localUsersView)) {
+          (_users == null || _users!.isEmpty || localUsersView)) {
         remoteFetchUsers();
       }
       connectivityResult.value = result;
     });
 
-    if (await networkInfo.isConnected())
+    if (await networkInfo!.isConnected())
       remoteFetchUsers();
     else
       localFetchUsers();
@@ -61,7 +60,7 @@ class UsersController extends GetxController {
     if (usersViewState.value == ViewState.busy) return;
     localUsersView = false;
     _setUsersViewState(ViewState.busy);
-    final result = await userService.remoteGetAllUsers();
+    final result = await userService!.remoteGetAllUsers();
     _handleFetchUsers(result);
   }
 
@@ -69,7 +68,7 @@ class UsersController extends GetxController {
     if (usersViewState.value == ViewState.busy) return;
     localUsersView = true;
     _setUsersViewState(ViewState.busy);
-    final result = await userService.localGetAll();
+    final Either<Failure, List<User>> result = await userService!.localGetAll();
     _handleFetchUsers(result);
   }
 

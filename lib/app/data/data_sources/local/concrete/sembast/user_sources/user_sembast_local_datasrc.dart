@@ -1,16 +1,15 @@
 import 'package:sembast/sembast.dart';
-import 'package:template/app/data/models/user.dart';
-import 'package:template/core/data_sources/local/IDao.dart';
-import 'package:template/core/data_sources/local/IDbProvider.dart';
-import 'package:template/core/data_sources/local/sembast/ISembastDao.dart';
-import 'package:template/core/data_sources/local/sembast/base_sembast_data_source.dart';
-
+import '../../../../../../../app/data/models/user.dart';
+import '../../../../../../../core/data_sources/local/IDao.dart';
+import '../../../../../../../core/data_sources/local/IDbProvider.dart';
+import '../../../../../../../core/data_sources/local/sembast/ISembastDao.dart';
+import '../../../../../../../core/data_sources/local/sembast/base_sembast_data_source.dart';
 import '../../../abstract/IUserLocalDataSrc.dart';
 
 class UserSembastDataSource extends BaseSembastDataSource<User>
     implements IUserLocalDataSrc {
   const UserSembastDataSource(
-      IDbProvider<Database> dbProvider, ISembastDao<User> dao)
+      IDbProvider<dynamic> dbProvider, IDao<User> dao)
       : super(dbProvider, dao);
 
   // Special methods other than CRUD

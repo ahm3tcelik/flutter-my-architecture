@@ -1,9 +1,8 @@
 import 'dart:async';
-
 import 'package:connectivity/connectivity.dart';
 import 'package:get/get.dart';
 import 'package:kiwi/kiwi.dart';
-import 'package:template/core/utils/network/INetworkInfo.dart';
+import '../../../core/utils/network/INetworkInfo.dart';
 
 enum ViewState { initial, busy, error, data }
 
@@ -13,16 +12,16 @@ class TestController extends GetxController {
   final viewState = ViewState.initial.obs;
   final connectivityResult = ConnectivityResult.none.obs;
 
-  INetworkInfo networkInfo;
+  INetworkInfo? networkInfo;
 
-  StreamSubscription<ConnectivityResult> connectionSubscription;
+  late StreamSubscription<ConnectivityResult> connectionSubscription;
 
   @override
   void onInit() async {
     networkInfo = container<INetworkInfo>();
-    connectivityResult.value = await networkInfo.connectivityResult;
+    connectivityResult.value = await networkInfo!.connectivityResult;
 
-    connectionSubscription = networkInfo.onConnectivityChanged.listen((result) {
+    connectionSubscription = networkInfo!.onConnectivityChanged.listen((result) {
       connectivityResult.value = result;
     });
     super.onInit();

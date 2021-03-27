@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:template/app/data/models/user.dart';
-import 'package:template/app/views/users/users_controller.dart';
-import 'package:template/core/widgets/index.dart' as coreWidgets;
+import '../../data/models/user.dart';
+import '../users/users_controller.dart';
+import '../../../core/widgets/index.dart' as coreWidgets;
 
 class UsersView extends GetView<UsersController> {
   @override
@@ -38,7 +38,7 @@ class UsersView extends GetView<UsersController> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.warning, color: Get.theme.errorColor, size: 48),
+          Icon(Icons.warning, color: Get.theme!.errorColor, size: 48),
           Text(controller.usersErrorMsg)
         ],
       ),
@@ -64,8 +64,8 @@ class UsersView extends GetView<UsersController> {
                   child: SizedBox(height: 7,),
                 ),
               ).paddingAll(8),
-              baseColor: Get.theme.backgroundColor,
-              highlightColor: Get.theme.highlightColor)
+              baseColor: Get.theme!.backgroundColor,
+              highlightColor: Get.theme!.highlightColor)
       ],
     );
   }
@@ -75,7 +75,7 @@ class UsersView extends GetView<UsersController> {
       children: [
         for (User user in controller.users)
           ListTile(
-            title: Text(user.userName),
+            title: Text(user.userName!),
             leading: CircleAvatar(
               child: Text(user.userId.toString()),
             ),

@@ -8,7 +8,7 @@ class ExampleDataSrcMock extends Mock implements UserSqfliteDataSource {}
 
 void main() {
 
-  IUserLocalDataSrc userLocalDataSrc;
+  late IUserLocalDataSrc userLocalDataSrc;
 
   final exampleList = <User>[
     User(userId: '1', userName: "Lorem"),
@@ -23,7 +23,7 @@ void main() {
     when(userLocalDataSrc.getAll())
         .thenAnswer((_) => Future.value(exampleList));
 
-    final result = await userLocalDataSrc.getAll();
+    final List<User>? result = await userLocalDataSrc.getAll();
     expect(result, exampleList);
 
   });
@@ -32,7 +32,7 @@ void main() {
     when(userLocalDataSrc.get('1'))
         .thenAnswer((_) => Future.value(exampleList[0]));
 
-    final result = await userLocalDataSrc.get('1');
+    final User? result = await userLocalDataSrc.get('1');
     expect(result, exampleList[0]);
 
   });

@@ -11,7 +11,7 @@ class DaoContext {
   // First, add custom data class to IoC container. (injector/injector.dart)
   // Then, add the list.
   // This operation required for auto creating table and auto define CRUD methods
-  static List<ISqfliteDao> daoList = [
+  static List<ISqfliteDao?> daoList = [
     container<ISqfliteDao<User>>(),
     container<ISqfliteDao<Example>>()
   ];

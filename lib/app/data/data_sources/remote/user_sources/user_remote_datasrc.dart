@@ -1,9 +1,9 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-import 'package:template/app/data/api/api_client.dart';
-import 'package:template/app/data/data_sources/remote/user_sources/IUserRemoteDataSrc.dart';
-import 'package:template/app/data/models/user.dart';
-import 'package:template/core/errors/failure.dart';
+import '../../../../data/api/api_client.dart';
+import '../../../../data/data_sources/remote/user_sources/IUserRemoteDataSrc.dart';
+import '../../../../data/models/user.dart';
+import '../../../../../core/errors/failure.dart';
 
 class UserRemoteDataSrc implements IUserRemoteDataSrc {
   final ApiClient apiClient;

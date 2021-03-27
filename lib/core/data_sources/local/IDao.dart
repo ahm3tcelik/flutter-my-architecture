@@ -1,4 +1,4 @@
-import 'package:template/core/models/IEntity.dart';
+import '../../../core/models/IEntity.dart';
 
 abstract class IDao<T extends IEntity> {
   T get createGenericInstance;

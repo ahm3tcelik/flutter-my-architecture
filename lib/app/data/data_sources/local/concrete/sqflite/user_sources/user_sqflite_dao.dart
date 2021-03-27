@@ -1,6 +1,5 @@
-import 'package:template/app/data/models/user.dart';
-import 'package:template/core/data_sources/local/sqflite/ISqfliteDao.dart';
-
+import '../../../../../../data/models/user.dart';
+import '../../../../../../../core/data_sources/local/sqflite/ISqfliteDao.dart';
 
 class UserSqfliteDao extends ISqfliteDao<User> {
 

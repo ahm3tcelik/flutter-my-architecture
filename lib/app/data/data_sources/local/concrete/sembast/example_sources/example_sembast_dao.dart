@@ -1,5 +1,5 @@
-import 'package:template/app/data/models/example.dart';
-import 'package:template/core/data_sources/local/sembast/ISembastDao.dart';
+import '../../../../../../data/models/example.dart';
+import '../../../../../../../core/data_sources/local/sembast/ISembastDao.dart';
 
 class ExampleSembastDao extends ISembastDao<Example> {
 

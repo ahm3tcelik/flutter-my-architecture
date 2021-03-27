@@ -1,6 +1,5 @@
-import 'package:template/app/data/models/example.dart';
-import 'package:template/core/data_sources/local/sqflite/ISqfliteDao.dart';
-
+import '../../../../../../data/models/example.dart';
+import '../../../../../../../core/data_sources/local/sqflite/ISqfliteDao.dart';
 
 class ExampleSqfliteDao extends ISqfliteDao<Example> {
 

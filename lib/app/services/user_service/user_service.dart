@@ -1,10 +1,10 @@
-import 'package:dartz/dartz.dart';
-import 'package:template/app/data/data_sources/local/abstract/IUserLocalDataSrc.dart';
-import 'package:template/app/data/data_sources/remote/user_sources/IUserRemoteDataSrc.dart';
-import 'package:template/app/data/models/user.dart';
-import 'package:template/app/services/user_service/IUserService.dart';
-import 'package:template/core/errors/failure.dart';
-import 'package:template/core/services/base_service.dart';
+import '../../data/data_sources/local/abstract/IUserLocalDataSrc.dart';
+import '../../data/data_sources/remote/user_sources/IUserRemoteDataSrc.dart';
+import '../../data/models/user.dart';
+import '../../../core/services/base_service.dart';
+import '../../../core/models/either.dart';
+import '../../../core/errors/failure.dart';
+import 'IUserService.dart';
 
 class UserService extends BaseService<User, IUserLocalDataSrc>
     implements IUserService {
@@ -20,28 +20,34 @@ class UserService extends BaseService<User, IUserLocalDataSrc>
 
     final List<User>? data = await localDataSrc.searchByName(key);
     if (data == null || data.isEmpty) {
-      return const Left(Failure("Search not found"));
+      return Left<Failure, List<User>>(Failure("Search not found"));
     }
-    return Right(data);
+    return Right<Failure, List<User>>(data);
   }
 
   // REMOTE Services
 
   @override
   Future<Either<Failure, List<User>>> remoteGetAllUsers() async {
+    var result;
     try {
       final response = await remoteDataSrc.getUsers();
-      return response.fold((err) {
-        return Left(err);
-      }, (userList) {
-        if (userList != null || userList.isEmpty) {
-          localDataSrc.putFromRemote(userList);
-          return Right(userList);
+
+      response.fold(onLeft: (err) {
+        result = Left<Failure, List<User>>(err);
+      }, onRight: (userList) {
+        if (userList != null) {
+          if (userList.isNotEmpty) {
+            localDataSrc.putFromRemote(userList);
+            result = Right<Failure, List<User>>(userList);
+          }
         }
-        return const Left(Failure("Users are not available"));
+        else result = Left<Failure, List<User>>(Failure("Users are not available"));
       });
+
     } catch (_) {
-      return const Left(Failure('Unexpected error occurred'));
+      result = Left<Failure, List<User>>(Failure('Unexpected error occurred'));
     }
+    return result;
   }
 }

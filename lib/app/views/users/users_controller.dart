@@ -1,13 +1,15 @@
 import 'dart:async';
+
 import 'package:connectivity/connectivity.dart';
-import 'package:dartz/dartz.dart';
 import 'package:get/get.dart';
 import 'package:kiwi/kiwi.dart';
+
+import '../../../core/enums/view_state.dart';
+import '../../../core/errors/failure.dart';
+import '../../../core/models/either.dart';
+import '../../../core/utils/network/INetworkInfo.dart';
 import '../../data/models/user.dart';
 import '../../services/user_service/IUserService.dart';
-import '../../../core/errors/failure.dart';
-import '../../../core/utils/network/INetworkInfo.dart';
-import '../../../core/enums/view_state.dart';
 
 class UsersController extends GetxController {
   final container = KiwiContainer();
@@ -25,8 +27,6 @@ class UsersController extends GetxController {
 
   @override
   void onInit() async {
-
-
     networkInfo = container<INetworkInfo>();
     connectivityResult.value = await networkInfo!.connectivityResult;
 
@@ -71,16 +71,16 @@ class UsersController extends GetxController {
   }
 
   void _handleFetchUsers(Either<Failure, List<User>> result) async {
-    result.fold((failure) {
+    result.fold(onLeft: (failure) {
+      // ON ERROR
       users?.clear();
-      usersErrorMsg = failure.message;
+      usersErrorMsg = failure?.message ?? 'Error';
       _setUsersViewState(ViewState.ERROR);
-    }, (data) {
+    }, onRight: (data) {
+      // ON SUCCESS
       users = data;
-
       Get.snackbar(
           "Data", "Data received from ${localUsersView ? 'local db' : 'api'}");
-
       _setUsersViewState(ViewState.DATA);
     });
   }

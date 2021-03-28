@@ -1,5 +1,5 @@
-import 'package:dartz/dartz.dart';
-import 'package:template/core/errors/failure.dart';
+import '../models/either.dart';
+import '../errors/failure.dart';
 
 abstract class IService<T> {
   // LOCAL

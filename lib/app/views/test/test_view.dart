@@ -1,6 +1,7 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../core/widgets/index.dart' as CoreWidgets;
 import 'test_controller.dart';
 
 class TestView extends GetView<TestController> {
@@ -17,13 +18,13 @@ class TestView extends GetView<TestController> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                child: buildViewState,
+                child: _buildViewState,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Expanded(
-                      child: RaisedButton(
+                      child: MaterialButton(
                         onPressed: () {
                           controller.getData();
                         },
@@ -31,7 +32,7 @@ class TestView extends GetView<TestController> {
                       )),
                   SizedBox(width: 5),
                   Expanded(
-                      child: RaisedButton(
+                      child: MaterialButton(
                         onPressed: () {
                           controller.getError();
                         },
@@ -51,22 +52,34 @@ class TestView extends GetView<TestController> {
     );
   }
 
+  Widget get _buildViewState {
+    return Obx(() {
+      return CoreWidgets.Folded(
+        viewState: controller.viewState.value,
+        initial: SizedBox(),
+        busy: Center(child: CircularProgressIndicator()),
+        error: _buildErrorWithMsg,
+        data: _buildSuccessData,
+      );
+    });
+  }
+
   Widget get buildConnectionState {
     return Obx(() {
       switch (controller.connectivityResult.value) {
         case ConnectivityResult.none:
-          return buildNoneConnection;
+          return _buildNoneConnection;
         case ConnectivityResult.wifi:
-          return buildWifiConnection;
+          return _buildWifiConnection;
         case ConnectivityResult.mobile:
-          return buildMobileConnection;
+          return _buildMobileConnection;
         default:
           return SizedBox();
       }
     });
   }
 
-  Widget get buildNoneConnection {
+  Widget get _buildNoneConnection {
     return Chip(
       backgroundColor: Get.theme!.colorScheme.primaryVariant,
       elevation: 4,
@@ -86,7 +99,8 @@ class TestView extends GetView<TestController> {
     );
   }
 
-  Widget get buildWifiConnection {
+
+  Widget get _buildWifiConnection {
     return Chip(
       backgroundColor: Get.theme!.colorScheme.primaryVariant,
       elevation: 4,
@@ -106,7 +120,7 @@ class TestView extends GetView<TestController> {
     );
   }
 
-  Widget get buildMobileConnection {
+  Widget get _buildMobileConnection {
     return Chip(
       backgroundColor: Get.theme!.colorScheme.primaryVariant,
       elevation: 4,
@@ -126,22 +140,7 @@ class TestView extends GetView<TestController> {
     );
   }
 
-  Widget get buildViewState {
-    return Obx(() {
-      switch (controller.viewState.value) {
-        case ViewState.busy:
-          return Center(child: CircularProgressIndicator());
-        case ViewState.error:
-          return buildErrorWithMsg;
-        case ViewState.data:
-          return buildSuccesData;
-        default:
-          return SizedBox();
-      }
-    });
-  }
-
-  Widget get buildSuccesData {
+  Widget get _buildSuccessData {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -151,7 +150,7 @@ class TestView extends GetView<TestController> {
     );
   }
 
-  Widget get buildErrorWithMsg {
+  Widget get _buildErrorWithMsg {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../data/models/user.dart';
 import '../users/users_controller.dart';
-import '../../../core/widgets/index.dart' as coreWidgets;
+import '../../../core/widgets/index.dart' as CoreWidgets;
 
 class UsersView extends GetView<UsersController> {
   @override
@@ -18,22 +18,16 @@ class UsersView extends GetView<UsersController> {
 
   Widget get buildUsersView {
     return Obx(() {
-      switch (controller.usersViewState.value) {
-        case ViewState.initial:
-          return Text('Initial');
-        case ViewState.busy:
-          return buildShimmerList;
-        case ViewState.data:
-          return buildUsersList;
-        case ViewState.error:
-          return buildError;
-        default:
-          return SizedBox();
-      }
+      return CoreWidgets.Folded(
+        viewState: controller.usersViewState.value,
+        busy: _buildShimmerList,
+        error: _buildError,
+        data: _buildUsersList,
+      );
     });
   }
 
-  Widget get buildError {
+  Widget get _buildError {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -45,11 +39,11 @@ class UsersView extends GetView<UsersController> {
     );
   }
 
-  Widget get buildShimmerList {
+  Widget get _buildShimmerList {
     return ListView(
       children: [
         for (var i = 0; i < 6; i++)
-          coreWidgets.Shimmer.fromColors(
+          CoreWidgets.Shimmer.fromColors(
               child: ListTile(
                 leading: CircleAvatar(
                   backgroundColor: Colors.white,
@@ -70,10 +64,10 @@ class UsersView extends GetView<UsersController> {
     );
   }
 
-  Widget get buildUsersList {
+  Widget get _buildUsersList {
     return ListView(
       children: [
-        for (User user in controller.users)
+        for (User user in controller.users ?? [])
           ListTile(
             title: Text(user.userName!),
             leading: CircleAvatar(

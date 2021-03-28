@@ -1,0 +1,1 @@
+enum ViewState { INITIAL, BUSY, ERROR, DATA }

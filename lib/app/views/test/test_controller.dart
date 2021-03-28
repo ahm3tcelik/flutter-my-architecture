@@ -3,13 +3,13 @@ import 'package:connectivity/connectivity.dart';
 import 'package:get/get.dart';
 import 'package:kiwi/kiwi.dart';
 import '../../../core/utils/network/INetworkInfo.dart';
+import '../../../core/enums/view_state.dart';
 
-enum ViewState { initial, busy, error, data }
 
 class TestController extends GetxController {
   final container = KiwiContainer();
 
-  final viewState = ViewState.initial.obs;
+  final viewState = ViewState.INITIAL.obs;
   final connectivityResult = ConnectivityResult.none.obs;
 
   INetworkInfo? networkInfo;
@@ -35,15 +35,15 @@ class TestController extends GetxController {
   }
 
   void getError() async {
-    _setViewState(ViewState.busy);
+    _setViewState(ViewState.BUSY);
     await Future.delayed(Duration(seconds: 3));
-    _setViewState(ViewState.error);
+    _setViewState(ViewState.ERROR);
   }
 
   void getData() async {
-    _setViewState(ViewState.busy);
+    _setViewState(ViewState.BUSY);
     await Future.delayed(Duration(seconds: 3));
-    _setViewState(ViewState.data);
+    _setViewState(ViewState.DATA);
   }
 
   void _setViewState(ViewState state) {

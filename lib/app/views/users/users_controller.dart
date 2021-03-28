@@ -7,8 +7,7 @@ import '../../data/models/user.dart';
 import '../../services/user_service/IUserService.dart';
 import '../../../core/errors/failure.dart';
 import '../../../core/utils/network/INetworkInfo.dart';
-
-enum ViewState { initial, busy, error, data }
+import '../../../core/enums/view_state.dart';
 
 class UsersController extends GetxController {
   final container = KiwiContainer();
@@ -17,17 +16,16 @@ class UsersController extends GetxController {
   INetworkInfo? networkInfo;
   late StreamSubscription<ConnectivityResult> connectionSubscription;
 
-  IUserService? userService;
-  final usersViewState = ViewState.initial.obs;
-  List<User>? _users;
-  String usersErrorMsg = '';
+  late final IUserService userService = container<IUserService>();
+  final usersViewState = ViewState.INITIAL.obs;
 
-  List<User> get users => List.from(_users!);
+  List<User>? users;
+  String usersErrorMsg = '';
   bool localUsersView = false;
 
   @override
   void onInit() async {
-    userService = container<IUserService>();
+
 
     networkInfo = container<INetworkInfo>();
     connectivityResult.value = await networkInfo!.connectivityResult;
@@ -35,16 +33,16 @@ class UsersController extends GetxController {
     connectionSubscription =
         networkInfo!.onConnectivityChanged.listen((ConnectivityResult result) {
       if (result != ConnectivityResult.none &&
-          (_users == null || _users!.isEmpty || localUsersView)) {
-        remoteFetchUsers();
+          (users == null || users!.isEmpty || localUsersView)) {
+        _remoteFetchUsers();
       }
       connectivityResult.value = result;
     });
 
     if (await networkInfo!.isConnected())
-      remoteFetchUsers();
+      _remoteFetchUsers();
     else
-      localFetchUsers();
+      _localFetchUsers();
 
     super.onInit();
   }
@@ -56,34 +54,34 @@ class UsersController extends GetxController {
     super.onClose();
   }
 
-  void remoteFetchUsers() async {
-    if (usersViewState.value == ViewState.busy) return;
+  void _remoteFetchUsers() async {
+    if (usersViewState.value == ViewState.BUSY) return;
     localUsersView = false;
-    _setUsersViewState(ViewState.busy);
-    final result = await userService!.remoteGetAllUsers();
+    _setUsersViewState(ViewState.BUSY);
+    final result = await userService.remoteGetAllUsers();
     _handleFetchUsers(result);
   }
 
-  void localFetchUsers() async {
-    if (usersViewState.value == ViewState.busy) return;
+  void _localFetchUsers() async {
+    if (usersViewState.value == ViewState.BUSY) return;
     localUsersView = true;
-    _setUsersViewState(ViewState.busy);
-    final Either<Failure, List<User>> result = await userService!.localGetAll();
+    _setUsersViewState(ViewState.BUSY);
+    final Either<Failure, List<User>> result = await userService.localGetAll();
     _handleFetchUsers(result);
   }
 
   void _handleFetchUsers(Either<Failure, List<User>> result) async {
     result.fold((failure) {
-      _users?.clear();
+      users?.clear();
       usersErrorMsg = failure.message;
-      _setUsersViewState(ViewState.error);
+      _setUsersViewState(ViewState.ERROR);
     }, (data) {
-      _users = data;
+      users = data;
 
       Get.snackbar(
           "Data", "Data received from ${localUsersView ? 'local db' : 'api'}");
 
-      _setUsersViewState(ViewState.data);
+      _setUsersViewState(ViewState.DATA);
     });
   }
 

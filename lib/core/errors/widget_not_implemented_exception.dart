@@ -1,0 +1,1 @@
+class WidgetNotImplementedException implements Exception {}

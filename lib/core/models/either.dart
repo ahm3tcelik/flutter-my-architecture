@@ -1,3 +1,6 @@
+///
+/// Usually the [LEFT] is the error case, the [RIGHT] is the successful case
+///
 abstract class Either<L, R> {
   final L? left;
   final R? right;
@@ -7,6 +10,21 @@ abstract class Either<L, R> {
   bool get isLeft => this.left != null;
   bool get isRight => this.right != null;
 
+  /// ```dart
+  /// result = Right<String, int>(200);
+  ///
+  /// result.fold(onLeft: (failure) {
+  ///
+  ///   print('ERROR CASE');
+  ///
+  /// }, onRight: (data) {
+  ///
+  ///   print('SUCCESS CASE $data');
+  ///
+  /// });
+  ///
+  /// // The results of code: 'SUCCESS CASE 200'
+  /// ```
   void fold({required Function(L? l) onLeft, required Function(R? r) onRight}) {
     if (!isRight) {
       onLeft(this.left);

@@ -2,7 +2,7 @@ abstract class Either<L, R> {
   final L? left;
   final R? right;
 
-  Either({this.left, this.right});
+  const Either({this.left, this.right});
 
   bool get isLeft => this.left != null;
   bool get isRight => this.right != null;
@@ -18,9 +18,9 @@ abstract class Either<L, R> {
 }
 
 class Right<L, R> extends Either<L, R> {
-  Right(right): super(right: right);
+  const Right(right): super(right: right);
 }
 
 class Left<L, R> extends Either<L, R> {
-  Left(left) : super(left: left);
+  const Left(left) : super(left: left);
 }
